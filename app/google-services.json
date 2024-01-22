@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "653676046905",
+    "project_id": "society-management-app-62e36",
+    "storage_bucket": "society-management-app-62e36.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:653676046905:android:234890fea022a8ad633be8",
+        "android_client_info": {
+          "package_name": "com.example.societymanagementapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCAmoXfqLVRGrZwCYNIp-L3-vahn7Y_gI4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
