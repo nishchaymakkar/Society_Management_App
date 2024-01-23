@@ -141,17 +141,7 @@ fun loginPage() {
             ) {
                 Text(text = "or sign in with",
                     fontSize = 20.sp)
-                Button(
-                    modifier = Modifier.size(100.dp),
-                    onClick = { /* todo*/ },
-                    shape = CircleShape,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color.Transparent
-                    )
-                ) {
-                    Image(painterResource(id = R.drawable.googleicon), contentDescription = "sign in logo")
-                }
+
             }
         }
     }
