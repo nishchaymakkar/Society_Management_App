@@ -17,7 +17,7 @@ import kotlinx.coroutines.Job
 @Composable
 fun SignInScreen(
     state: SignInState,
-    onSignInClick: Job
+    onSignInClick: () -> Unit
 ) {
     val context = LocalContext.current
     LaunchedEffect(key1 = state.signInError){
