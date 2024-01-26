@@ -186,7 +186,7 @@ fun SignInScreen(
                     Text(
                         text = "forgot password?",
                         color = Color.Black,
-                        fontSize = 10.sp,
+                        fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                     )
                 }
@@ -194,7 +194,7 @@ fun SignInScreen(
                 Text(
                     text = "or login with",
                     color = Color.Black,
-                    fontSize = 10.sp,
+                    fontSize = 15.sp,
                     fontWeight = FontWeight.Bold,
                 )
                 Spacer(modifier = Modifier.height(5.dp))

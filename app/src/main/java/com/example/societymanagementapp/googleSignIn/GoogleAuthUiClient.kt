@@ -3,14 +3,13 @@ package com.example.societymanagementapp.googleSignIn
 import android.content.Context
 import android.content.Intent
 import android.content.IntentSender
+
 import com.example.societymanagementapp.R
 import com.google.android.gms.auth.api.identity.BeginSignInRequest
 import com.google.android.gms.auth.api.identity.SignInClient
-import com.google.android.gms.signin.internal.SignInClientImpl
 import com.google.firebase.Firebase
 import com.google.firebase.auth.GoogleAuthProvider
 import com.google.firebase.auth.auth
-import io.grpc.Context.CancellationListener
 import kotlinx.coroutines.tasks.await
 import java.lang.Exception
 import java.util.concurrent.CancellationException
