@@ -40,13 +40,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             SocietyManagementAppTheme {
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
+
                   val navController = rememberNavController()
                   NavHost(navController = navController, startDestination = "sign_in" ){
-                      composable("sign_in"){
+                      composable(route ="sign_in"){
                           val viewModel = viewModel<SignInViewModel>()
                           val state by viewModel.state.collectAsStateWithLifecycle()
 
@@ -107,8 +104,6 @@ class MainActivity : ComponentActivity() {
                                   }
                               })
                       }
-
-                    }
                 }
             }
         }

@@ -35,7 +35,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.societymanagementapp.R
-import com.example.societymanagementapp.loginPage
 import kotlinx.coroutines.Job
 import android.widget.ImageButton
 import androidx.compose.foundation.BorderStroke
@@ -78,6 +77,8 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.societymanagementapp.homePage
+
 @Composable
 fun SignInScreen(
     state: SignInState,
