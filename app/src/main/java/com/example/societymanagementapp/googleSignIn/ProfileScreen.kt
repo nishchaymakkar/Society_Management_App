@@ -1,5 +1,8 @@
+@file:OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3Api::class)
+
 package com.example.societymanagementapp.googleSignIn
 
+import android.service.autofill.OnClickAction
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -7,6 +10,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,6 +23,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -29,16 +34,20 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.societymanagementapp.R
+import com.example.societymanagementapp.ui.theme.darkGreen
 import com.example.societymanagementapp.ui.theme.offWhite
+
+
 @Composable
 fun ProfileScreen(
     userData: UserData?,
-    onSignOut: () -> Unit
+    onSignOut: () -> Unit,
+    onVisitorClick: () -> Unit,
+    onComplaintClick: () -> Unit
 ) {
     Box (
         modifier = Modifier
@@ -96,93 +105,122 @@ fun ProfileScreen(
             }
             Spacer(modifier = Modifier.height(20.dp))
 
-            Card(modifier = Modifier
-                .fillMaxWidth()
-                .height(100.dp)
-                .padding(horizontal = 20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                )
-            ) {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.Top) {
-                    Text(text = "Expected Guest",
-                        modifier= Modifier.padding(10.dp),
-                        color = Color.Blue,
-                        fontWeight = FontWeight.Bold
-
-                    )
-                }
-
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.Bottom) {
-                    Text(text = "see visitor log",
-                        modifier = Modifier
-                            .padding(horizontal = 10.dp)
-                            .align(alignment = Alignment.CenterVertically),
-                        color = Color.DarkGray
-                    )
-                    Text(text = "More Details", modifier = Modifier
-                        .padding(horizontal = 10.dp)
-                        .align(alignment = Alignment.CenterVertically),
-                        color = Color.Blue)
-                }
-
-            }
-            Spacer(modifier = Modifier.height(20.dp))
             Column {
+                Row {
+                    Card(modifier = Modifier
+                        .fillMaxWidth()
+                        .height(100.dp)
+                        .padding(horizontal = 20.dp),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        onClick = onVisitorClick
+                    ) {
+                        Row(horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()) {
+                            Text(text = "Expected Guest", color = darkGreen,
+                                fontWeight = FontWeight.Bold,
+                                fontSize = 15.sp,
+                                modifier = Modifier
+                                    .padding(10.dp)
+                            )
+                        }
+                        Spacer(modifier = Modifier.height(20.dp))
+                        Row(modifier = Modifier.fillMaxWidth()) {
+                            Text(text = "Today at 1:20 P.M",
+                                fontSize = 15.sp,
+                                color = Color.DarkGray,
+                                modifier = Modifier.padding(10.dp)
+                            )
+                            Text(text = ".more details",
+                                color = Color.Blue,
+                                modifier = Modifier.padding(10.dp),
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
+                Spacer(modifier = Modifier.height(20.dp))
                 Row(modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .height(150.dp),
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
-                        )
+                        ),
+                        onClick = onVisitorClick
+
                     )
                     {
-                        Text(text = "Visitors",
-                            modifier= Modifier.padding(10.dp),
+                        Text(
+                            text = "Visitors",
+                            modifier = Modifier.padding(10.dp),
                             color = Color.DarkGray,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
                         )
                         Image(
-                            painterResource(id = R.drawable.people), contentDescription ="visitors logo" ,
+                            painterResource(id = R.drawable.people),
+                            contentDescription = "visitors logo",
                             modifier = Modifier
-                                .size(50.dp)
-                                .padding(horizontal = 10.dp))
-                        Row(modifier= Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Bottom) {
-                            Image(
-                                painterResource(id = R.drawable.add_circle),contentDescription = "add circle",modifier = Modifier
+                                .size(60.dp)
                                 .padding(horizontal = 10.dp)
-                                .size(50.dp))
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.arrow),
+                                contentDescription = "forward arrow",
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(5.dp),
+                                contentScale = ContentScale.Crop
+                            )
                         }
                     }
                     Spacer(modifier = Modifier.width(20.dp))
-                    Card(modifier = Modifier
-                        .width(160.dp)
-                        .height(150.dp),
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
-                        )
+                        ), onClick = onComplaintClick
                     )
                     {
-                        Text(text = "Complaints",
-                            modifier= Modifier.padding(10.dp),
+                        Text(
+                            text = "Complaints",
+                            modifier = Modifier.padding(10.dp),
                             color = Color.DarkGray,
-                            fontWeight = FontWeight.Bold
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
                         )
                         Image(
-                            painterResource(id = R.drawable.complainticon), contentDescription ="complaints logo" ,
+                            painterResource(id = R.drawable.complainticon),
+                            contentDescription = "complaints logo",
                             modifier = Modifier
-                                .size(50.dp)
-                                .padding(horizontal = 10.dp))
-                        Row(modifier= Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End, verticalAlignment = Alignment.Bottom) {
-                            Image(
-                                painterResource(id = R.drawable.add_circle),contentDescription = "add circle",modifier = Modifier
+                                .size(60.dp)
                                 .padding(horizontal = 10.dp)
-                                .size(50.dp))
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.arrow),
+                                contentDescription = "forward arrow" ,
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(5.dp),
+                                contentScale = ContentScale.Crop
+                            )
                         }
                     }
                 }
