@@ -1,3 +1,5 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.societymanagementapp
 
 import android.os.Bundle
@@ -7,12 +9,9 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.runtime.LaunchedEffect
+import androidx.activity.viewModels
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,6 +24,7 @@ import com.example.societymanagementapp.googleSignIn.SignInScreen
 import com.example.societymanagementapp.googleSignIn.SignInViewModel
 import com.example.societymanagementapp.ui.theme.SocietyManagementAppTheme
 import kotlinx.coroutines.launch
+import androidx.compose.runtime.LaunchedEffect as LaunchedEffect1
 
 
 class MainActivity : ComponentActivity() {
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
             oneTapClient = com.google.android.gms.auth.api.identity.Identity.getSignInClient(applicationContext)
         )
     }
-
+    private val viewModel by viewModels<VisitorViewModel> ()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -47,7 +47,7 @@ class MainActivity : ComponentActivity() {
                           val viewModel = viewModel<SignInViewModel>()
                           val state by viewModel.state.collectAsStateWithLifecycle()
 
-                          LaunchedEffect(key1 = Unit ){
+                          LaunchedEffect1(key1 = Unit ){
                               if(googleAuthUiClient.getSignedInUser() != null){
                                   navController.navigate("profile")
                               }
@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                                   }
                               }
                           )
-                          LaunchedEffect(key1 = state.isSignInSuccessful){
+                          LaunchedEffect1(key1 = state.isSignInSuccessful){
                               if(state.isSignInSuccessful){
                                   Toast.makeText(
                                       applicationContext,
@@ -102,7 +102,27 @@ class MainActivity : ComponentActivity() {
 
                                       navController.popBackStack()
                                   }
-                              })
+                              }, onVisitorClick ={
+                                  navController.navigate("visitor")
+                              }, onComplaintClick ={
+                                  navController.navigate("complaints")
+                              },
+
+                           )
+
+                      }
+
+                      composable(
+                          route = "visitor"
+                      ){
+                          VisitorScreen(viewModel = VisitorViewModel())
+
+                      }
+                      composable(
+                          route = "complaints"
+                      ){
+                          ComplaintBoxScreen()
+
                       }
                 }
             }

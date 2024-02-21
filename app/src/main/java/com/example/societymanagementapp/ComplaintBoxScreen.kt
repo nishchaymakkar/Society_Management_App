@@ -48,18 +48,23 @@ fun ComplaintBoxScreen() {
             }
             Card(modifier = Modifier
                 .padding(horizontal = 25.dp)
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .height(50.dp),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White,
-                ), border = BorderStroke(width = .5.dp, color = Color.Black)
+                ),
+                elevation = CardDefaults.cardElevation(
+                    defaultElevation = 10.dp
+                )
             ) {
-                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center) {
+                Row(verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
                     Text(text = "Add Complaints here",
                         color = Color.DarkGray,
                         fontWeight = FontWeight.Bold,
                         fontSize = 15.sp,
                         modifier = Modifier.padding(10.dp))
-                    Spacer(modifier = Modifier.width(20.dp))
+                    Spacer(modifier = Modifier.width(10.dp))
                         Image(painterResource(id = R.drawable.mail),contentDescription = "Complaints" )
                     }
             }
