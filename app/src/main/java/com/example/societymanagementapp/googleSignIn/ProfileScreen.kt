@@ -28,6 +28,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -43,6 +44,7 @@ import com.example.societymanagementapp.ui.theme.darkGreen
 import com.example.societymanagementapp.ui.theme.offWhite
 
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
     userData: UserData? ,
@@ -53,7 +55,7 @@ fun ProfileScreen(
     Box (
         modifier = Modifier
             .fillMaxSize()
-            .background(offWhite)
+            .background(Color.White)
     ){
         Column(modifier= Modifier
             .fillMaxSize()
@@ -102,46 +104,11 @@ fun ProfileScreen(
             }
             Row(Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center) {
-                Text(text = "Appartment Address",fontSize = 15.sp, color = Color.DarkGray)
+                Text(text = "Apartment Address",fontSize = 15.sp, color = Color.DarkGray)
             }
             Spacer(modifier = Modifier.height(20.dp))
 
             Column {
-                Row {
-                    Card(modifier = Modifier
-                        .fillMaxWidth()
-                        .height(100.dp)
-                        .padding(horizontal = 20.dp),
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White
-                        ),
-                        onClick = onVisitorClick
-                    ) {
-                        Row(horizontalArrangement = Arrangement.Center,
-                            modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "Expected Guest", color = darkGreen,
-                                fontWeight = FontWeight.Bold,
-                                fontSize = 15.sp,
-                                modifier = Modifier
-                                    .padding(10.dp)
-                            )
-                        }
-                        Spacer(modifier = Modifier.height(20.dp))
-                        Row(modifier = Modifier.fillMaxWidth()) {
-                            Text(text = "Today at 1:20 P.M",
-                                fontSize = 15.sp,
-                                color = Color.DarkGray,
-                                modifier = Modifier.padding(10.dp)
-                            )
-                            Text(text = ".more details",
-                                color = Color.Blue,
-                                modifier = Modifier.padding(10.dp),
-                                fontWeight = FontWeight.Bold
-                            )
-                        }
-                    }
-                }
-                Spacer(modifier = Modifier.height(20.dp))
                 Row(modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -152,7 +119,10 @@ fun ProfileScreen(
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
                         ),
-                        onClick = onVisitorClick
+                        onClick = onVisitorClick,
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        )
 
                     )
                     {
@@ -192,7 +162,10 @@ fun ProfileScreen(
                             .aspectRatio(1f),
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
-                        ), onClick = onComplaintClick
+                        ), onClick = onComplaintClick,
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        )
                     )
                     {
                         Text(

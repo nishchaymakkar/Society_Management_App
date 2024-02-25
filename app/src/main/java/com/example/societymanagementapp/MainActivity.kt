@@ -18,15 +18,20 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.societymanagementapp.complaintScreen.ComplaintBoxScreen
+import com.example.societymanagementapp.complaintScreen.ComplaintScreenViewModel
 import com.example.societymanagementapp.googleSignIn.GoogleAuthUiClient
 import com.example.societymanagementapp.googleSignIn.ProfileScreen
 import com.example.societymanagementapp.googleSignIn.SignInScreen
 import com.example.societymanagementapp.googleSignIn.SignInViewModel
 import com.example.societymanagementapp.ui.theme.SocietyManagementAppTheme
+import com.example.societymanagementapp.visitorsScreenAndData.VisitorScreen
+import com.example.societymanagementapp.visitorsScreenAndData.VisitorViewModel
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.LaunchedEffect as LaunchedEffect1
 
 
+@ExperimentalMaterial3Api
 class MainActivity : ComponentActivity() {
 
     private val googleAuthUiClient by lazy {
@@ -36,6 +41,7 @@ class MainActivity : ComponentActivity() {
         )
     }
     private val viewModel by viewModels<VisitorViewModel> ()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -121,7 +127,7 @@ class MainActivity : ComponentActivity() {
                       composable(
                           route = "complaints"
                       ){
-                          ComplaintBoxScreen()
+                          ComplaintBoxScreen(viewModel = ComplaintScreenViewModel())
 
                       }
                 }

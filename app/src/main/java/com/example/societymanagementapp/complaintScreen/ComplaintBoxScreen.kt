@@ -1,6 +1,5 @@
-package com.example.societymanagementapp
+package com.example.societymanagementapp.complaintScreen
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -15,23 +14,26 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.societymanagementapp.R
+import com.example.societymanagementapp.visitorsScreenAndData.VisitorsDialog
 
-@Preview
+@ExperimentalMaterial3Api
 @Composable
-fun ComplaintBoxScreen() {
+fun ComplaintBoxScreen(
+    viewModel: ComplaintScreenViewModel
+) {
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)){
@@ -55,7 +57,9 @@ fun ComplaintBoxScreen() {
                 ),
                 elevation = CardDefaults.cardElevation(
                     defaultElevation = 10.dp
-                )
+                ), onClick = {
+                    viewModel.onOKayClick()
+                }
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.Center,modifier = Modifier.fillMaxSize()) {
@@ -67,6 +71,17 @@ fun ComplaintBoxScreen() {
                     Spacer(modifier = Modifier.width(10.dp))
                         Image(painterResource(id = R.drawable.mail),contentDescription = "Complaints" )
                     }
+                if (viewModel.isDialogueShown){
+                    if (viewModel.isDialogueShown){
+                        ComplaintDialog(onDismiss = {
+                            viewModel.onDismissDialogue()
+                        },
+                            onConfirm = {
+                                viewModel.onOKayClick()
+                            }
+                        )
+                    }
+                }
             }
         }
     }
