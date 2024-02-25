@@ -69,6 +69,9 @@ fun VisitorsDialog(
     onDismiss: ()-> Unit,
     onConfirm:()-> Unit ,
 ) {
+    var date by remember { mutableStateOf("")}
+    var time by remember { mutableStateOf("") }
+
     Dialog(onDismissRequest = {
         onDismiss()
     },
@@ -208,14 +211,13 @@ fun VisitorsDialog(
                             title = "Pick a Date"
                         ){
                             pickedDate = it
+                            date = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(it)
                         }
                     }
                     // the text value of date is stored in date
-                    var date by remember {
-                        mutableStateOf("")
-                    }
+
                     //textfield for the date
-                    OutlinedTextField(value = date, onValueChange = {date = it},
+                    OutlinedTextField(value = date, onValueChange = { date= it},
                         maxLines = 1,
                         textStyle = LocalTextStyle.current.copy(
                             textAlign = TextAlign.Left,
@@ -266,12 +268,11 @@ fun VisitorsDialog(
                             title = "Pick a Time"
                         ){
                             pickedTime = it
+                            time = DateTimeFormatter.ofPattern("hh:mm a").format(it)
                         }
                     }
                     //the value of text time is stored in time
-                    var time by remember {
-                        mutableStateOf("")
-                    }
+
                     //textfield for the time
                     OutlinedTextField(value = time, onValueChange = {time = it},
                         maxLines = 1,

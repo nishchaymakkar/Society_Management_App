@@ -82,12 +82,11 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:32.7.1"))
     implementation ("com.google.firebase:firebase-auth")
     implementation ("com.google.firebase:firebase-firestore")
-    implementation("com.google.android.gms:play-services-auth:20.7.0")
+    implementation("com.google.android.gms:play-services-auth:21.0.0")
     implementation("com.google.firebase:firebase-auth-ktx:22.3.1")
 
-    implementation("androidx.compose.material:material-icons-extended:1.5.4")
+    implementation("androidx.compose.material:material-icons-extended:1.6.2")
     //core for date and time picker
-    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.8.1-rc")
+    implementation("io.github.vanpra.compose-material-dialogs:datetime:0.9.0")
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-
 }
