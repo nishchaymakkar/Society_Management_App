@@ -49,7 +49,9 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.societymanagementapp.R
 import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
@@ -205,7 +207,11 @@ fun VisitorsDialog(
                     ) {
                         datepicker(
                             initialDate = LocalDate.now(),
-                            title = "Pick a Date"
+                            title = "Pick a Date",
+                            colors = DatePickerDefaults.colors(
+                               dateActiveBackgroundColor = Color.Blue,
+                                headerBackgroundColor = Color.Blue,
+                            )
                         ){
                             pickedDate = it
                         }
@@ -259,11 +265,16 @@ fun VisitorsDialog(
                         buttons = {
                             positiveButton(text = "Ok")
                             negativeButton(text = "Cancel")
-                        }
+                        }, backgroundColor = Color.White,
                     ) {
                         timepicker(
                             initialTime = LocalTime.now(),
-                            title = "Pick a Time"
+                            title = "Pick a Time",
+                            colors = TimePickerDefaults.colors(
+                                selectorColor = Color.Blue,
+                                activeBackgroundColor = Color.Blue,
+
+                            )
                         ){
                             pickedTime = it
                         }
