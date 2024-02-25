@@ -63,7 +63,7 @@ import java.time.format.DateTimeFormatter
 @Preview
 @Composable
 fun VisitorDialogPreview(){
-VisitorsDialog(onDismiss = {}, onConfirm = {})
+    VisitorsDialog(onDismiss = {}, onConfirm = {})
 }
 @ExperimentalMaterial3Api
 @Composable
@@ -71,6 +71,9 @@ fun VisitorsDialog(
     onDismiss: ()-> Unit,
     onConfirm:()-> Unit ,
 ) {
+    var date by remember { mutableStateOf("")}
+    var time by remember { mutableStateOf("") }
+
     Dialog(onDismissRequest = {
         onDismiss()
     },
@@ -104,73 +107,73 @@ fun VisitorsDialog(
                         modifier = Modifier.padding(10.dp),color = Color.Blue)
                 }
                 // textfield for Visitor Name
-                    var visitorname by remember {
-                        mutableStateOf("")
-                    }
-                    OutlinedTextField(value = visitorname, onValueChange = {visitorname = it},
-                        maxLines = 1,
-                        textStyle = LocalTextStyle.current.copy(
-                            textAlign = TextAlign.Left,
-                            fontSize = 20.sp,
-                            color = Color.Black,
-                        ),
-                        colors = TextFieldDefaults.textFieldColors(
-                            focusedTextColor = Color.Black ,
-                            containerColor = Color.White,
-                            cursorColor = Color.Blue,
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            focusedLabelColor = Color.Blue
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                        label = {
-                            Text(
-                                text = "Visitor Name"
-                            )
-                        },
-                        modifier= Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    )
+                var visitorname by remember {
+                    mutableStateOf("")
+                }
+                OutlinedTextField(value = visitorname, onValueChange = {visitorname = it},
+                    maxLines = 1,
+                    textStyle = LocalTextStyle.current.copy(
+                        textAlign = TextAlign.Left,
+                        fontSize = 20.sp,
+                        color = Color.Black,
+                    ),
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedTextColor = Color.Black ,
+                        containerColor = Color.White,
+                        cursorColor = Color.Blue,
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Blue,
+                        focusedLabelColor = Color.Blue
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                    label = {
+                        Text(
+                            text = "Visitor Name"
+                        )
+                    },
+                    modifier= Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 5.dp)
+                )
 
                 //textfield for visitor phone no.
-                    var phone_no by remember {
-                        mutableStateOf("")
-                    }
-                    OutlinedTextField(value = phone_no, onValueChange = {phone_no = it},
-                        maxLines = 1,
-                        textStyle = LocalTextStyle.current.copy(
-                            textAlign = TextAlign.Left,
-                            fontSize = 20.sp,
-                            color = Color.Black,
-                        ),
-                        trailingIcon ={
-                            Image(painterResource(id = R.drawable.phoneicon), contentDescription = "phone icon")
-                        },
-                        colors = TextFieldDefaults.textFieldColors(
-                            focusedTextColor = Color.Black ,
-                            containerColor = Color.White,
-                            cursorColor = Color.Blue,
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            focusedLabelColor = Color.Blue
-                        ),
-                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                        label = {
-                            Text(
-                                text = "Phone No."
-                            )
-                        },
-                        modifier= Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 5.dp)
-                    )
+                var phone_no by remember {
+                    mutableStateOf("")
+                }
+                OutlinedTextField(value = phone_no, onValueChange = {phone_no = it},
+                    maxLines = 1,
+                    textStyle = LocalTextStyle.current.copy(
+                        textAlign = TextAlign.Left,
+                        fontSize = 20.sp,
+                        color = Color.Black,
+                    ),
+                    trailingIcon ={
+                        Image(painterResource(id = R.drawable.phoneicon), contentDescription = "phone icon")
+                    },
+                    colors = TextFieldDefaults.textFieldColors(
+                        focusedTextColor = Color.Black ,
+                        containerColor = Color.White,
+                        cursorColor = Color.Blue,
+                        focusedIndicatorColor = Color.Blue,
+                        unfocusedIndicatorColor = Color.Blue,
+                        focusedLabelColor = Color.Blue
+                    ),
+                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                    label = {
+                        Text(
+                            text = "Phone No."
+                        )
+                    },
+                    modifier= Modifier
+                        .fillMaxWidth()
+                        .padding(vertical = 5.dp)
+                )
 
                 Row(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ){
-                //the value of date  picked is stored in pickedDate
+                    //the value of date  picked is stored in pickedDate
                     var pickedDate by remember {
                         mutableStateOf(LocalDate.now())
                     }
@@ -214,14 +217,13 @@ fun VisitorsDialog(
                             )
                         ){
                             pickedDate = it
+                            date = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(it)
                         }
                     }
                     // the text value of date is stored in date
-                    var date by remember {
-                        mutableStateOf("")
-                    }
+
                     //textfield for the date
-                    OutlinedTextField(value = date, onValueChange = {date = it},
+                    OutlinedTextField(value = date, onValueChange = { date= it},
                         maxLines = 1,
                         textStyle = LocalTextStyle.current.copy(
                             textAlign = TextAlign.Left,
@@ -265,7 +267,7 @@ fun VisitorsDialog(
                         buttons = {
                             positiveButton(text = "Ok")
                             negativeButton(text = "Cancel")
-                        }, backgroundColor = Color.White,
+                        }
                     ) {
                         timepicker(
                             initialTime = LocalTime.now(),
@@ -273,16 +275,14 @@ fun VisitorsDialog(
                             colors = TimePickerDefaults.colors(
                                 selectorColor = Color.Blue,
                                 activeBackgroundColor = Color.Blue,
-
                             )
                         ){
                             pickedTime = it
+                            time = DateTimeFormatter.ofPattern("hh:mm a").format(it)
                         }
                     }
                     //the value of text time is stored in time
-                    var time by remember {
-                        mutableStateOf("")
-                    }
+
                     //textfield for the time
                     OutlinedTextField(value = time, onValueChange = {time = it},
                         maxLines = 1,
