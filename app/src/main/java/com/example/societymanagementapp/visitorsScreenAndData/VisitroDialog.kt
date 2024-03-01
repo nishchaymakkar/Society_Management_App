@@ -49,9 +49,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.societymanagementapp.R
 import com.vanpra.composematerialdialogs.MaterialDialog
-import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
-import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import com.vanpra.composematerialdialogs.title
@@ -63,7 +61,7 @@ import java.time.format.DateTimeFormatter
 @Preview
 @Composable
 fun VisitorDialogPreview(){
-    VisitorsDialog(onDismiss = {}, onConfirm = {})
+VisitorsDialog(onDismiss = {}, onConfirm = {})
 }
 @ExperimentalMaterial3Api
 @Composable
@@ -107,73 +105,94 @@ fun VisitorsDialog(
                         modifier = Modifier.padding(10.dp),color = Color.Blue)
                 }
                 // textfield for Visitor Name
-                var visitorname by remember {
-                    mutableStateOf("")
-                }
-                OutlinedTextField(value = visitorname, onValueChange = {visitorname = it},
-                    maxLines = 1,
-                    textStyle = LocalTextStyle.current.copy(
-                        textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        color = Color.Black,
-                    ),
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedTextColor = Color.Black ,
-                        containerColor = Color.White,
-                        cursorColor = Color.Blue,
-                        focusedIndicatorColor = Color.Blue,
-                        unfocusedIndicatorColor = Color.Blue,
-                        focusedLabelColor = Color.Blue
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-                    label = {
-                        Text(
-                            text = "Visitor Name"
-                        )
-                    },
-                    modifier= Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 5.dp)
-                )
+                    var visitorname by remember {
+                        mutableStateOf("")
+                    }
+                    OutlinedTextField(value = visitorname, onValueChange = {visitorname = it},
+                        maxLines = 1,
+                        textStyle = LocalTextStyle.current.copy(
+                            textAlign = TextAlign.Left,
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                        ),
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedTextColor = Color.Black ,
+                            containerColor = Color.White,
+                            cursorColor = Color.Blue,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Blue,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
+                        label = {
+                            Text(
+                                text = "Visitor Name"
+                            )
+                        },
+                        modifier= Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp)
+                    )
 
                 //textfield for visitor phone no.
-                var phone_no by remember {
-                    mutableStateOf("")
-                }
-                OutlinedTextField(value = phone_no, onValueChange = {phone_no = it},
-                    maxLines = 1,
-                    textStyle = LocalTextStyle.current.copy(
-                        textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        color = Color.Black,
-                    ),
-                    trailingIcon ={
-                        Image(painterResource(id = R.drawable.phoneicon), contentDescription = "phone icon")
-                    },
-                    colors = TextFieldDefaults.textFieldColors(
-                        focusedTextColor = Color.Black ,
-                        containerColor = Color.White,
-                        cursorColor = Color.Blue,
-                        focusedIndicatorColor = Color.Blue,
-                        unfocusedIndicatorColor = Color.Blue,
-                        focusedLabelColor = Color.Blue
-                    ),
-                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
-                    label = {
-                        Text(
-                            text = "Phone No."
-                        )
-                    },
-                    modifier= Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 5.dp)
-                )
+                    var phone_no by remember {
+                        mutableStateOf("")
+                    }
+                    OutlinedTextField(value = phone_no, onValueChange = {phone_no = it},
+                        maxLines = 1,
+                        textStyle = LocalTextStyle.current.copy(
+                            textAlign = TextAlign.Left,
+                            fontSize = 20.sp,
+                            color = Color.Black,
+                        ),
+                        trailingIcon ={
+                            Image(painterResource(id = R.drawable.phoneicon), contentDescription = "phone icon")
+                        },
+                        colors = TextFieldDefaults.textFieldColors(
+                            focusedTextColor = Color.Black ,
+                            containerColor = Color.White,
+                            cursorColor = Color.Blue,
+                            focusedIndicatorColor = Color.Blue,
+                            unfocusedIndicatorColor = Color.Blue,
+                            focusedLabelColor = Color.Blue
+                        ),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
+                        label = {
+                            Text(
+                                text = "Phone No."
+                            )
+                        },
+                        modifier= Modifier
+                            .fillMaxWidth()
+                            .padding(vertical = 5.dp)
+                    )
 
                 Row(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ){
-
+                //the value of date  picked is stored in pickedDate
+                    var pickedDate by remember {
+                        mutableStateOf(LocalDate.now())
+                    }
+                    //the value of time picked is stored in pickedtime
+                    var pickedTime by remember {
+                        mutableStateOf(LocalTime.NOON)
+                    }
+                    val formattedDate by remember {
+                        derivedStateOf{
+                            DateTimeFormatter
+                                .ofPattern("mmm dd yyyy")
+                                .format(pickedDate)
+                        }
+                    }
+                    val formattedTime by remember {
+                        derivedStateOf{
+                            DateTimeFormatter
+                                .ofPattern("hh:mm")
+                                .format(pickedTime)
+                        }
+                    }
                     val dateDialogState = rememberMaterialDialogState()
                     val timeDialogState = rememberMaterialDialogState()
                     //this materialdialog is for the date picker
@@ -189,12 +208,9 @@ fun VisitorsDialog(
                     ) {
                         datepicker(
                             initialDate = LocalDate.now(),
-                            title = "Pick a Date",
-                            colors = DatePickerDefaults.colors(
-                               dateActiveBackgroundColor = Color.Blue,
-                                headerBackgroundColor = Color.Blue,
-                            )
+                            title = "Pick a Date"
                         ){
+                            pickedDate = it
                             date = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(it)
                         }
                     }
@@ -249,12 +265,9 @@ fun VisitorsDialog(
                     ) {
                         timepicker(
                             initialTime = LocalTime.now(),
-                            title = "Pick a Time",
-                            colors = TimePickerDefaults.colors(
-                                selectorColor = Color.Blue,
-                                activeBackgroundColor = Color.Blue,
-                            )
+                            title = "Pick a Time"
                         ){
+                            pickedTime = it
                             time = DateTimeFormatter.ofPattern("hh:mm a").format(it)
                         }
                     }
