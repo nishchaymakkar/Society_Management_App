@@ -2,7 +2,8 @@
 
 package com.example.societymanagementapp.googleSignIn
 
-import android.service.autofill.OnClickAction
+import android.content.Context
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -20,37 +21,36 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.societymanagementapp.R
-import com.example.societymanagementapp.ui.theme.darkGreen
-import com.example.societymanagementapp.ui.theme.offWhite
+import kotlin.coroutines.coroutineContext
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ProfileScreen(
-    userData: UserData? ,
+    userData: UserData?,
     onSignOut: () -> Unit,
     onVisitorClick: () -> Unit,
-    onComplaintClick: () -> Unit
+    onComplaintClick: () -> Unit,
+    viewModel: ProfileViewModel
 ) {
     Box (
         modifier = Modifier
@@ -82,12 +82,14 @@ fun ProfileScreen(
                 ) {
 
                     if(userData?.profilePictureUrl != null){
-                        AsyncImage(model = userData.profilePictureUrl, contentDescription ="profilePicture",
-                            modifier = Modifier
-                                .size(50.dp)
-                                .clip(CircleShape),
-                            contentScale = ContentScale.Crop
-                        )
+                        IconButton(onClick = {viewModel.onOKayClick() }) {
+                            AsyncImage(model = userData.profilePictureUrl, contentDescription ="profilePicture",
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
                     }
                 }
             }
@@ -109,6 +111,7 @@ fun ProfileScreen(
             Spacer(modifier = Modifier.height(20.dp))
 
             Column {
+                val context = LocalContext.current
                 Row(modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
@@ -198,12 +201,118 @@ fun ProfileScreen(
                         }
                     }
                 }
+                Spacer(modifier = Modifier.height(20.dp).fillMaxWidth())
+                Row(modifier = Modifier
+                    .padding(horizontal = 20.dp)
+                    .fillMaxWidth(), horizontalArrangement = Arrangement.Center) {
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ),
+                        onClick ={ Toast.makeText(context, "coming soon", Toast.LENGTH_LONG
+                        ).show()},
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        )
+
+                    )
+                    {
+                        Text(
+                            text = "Maintenance",
+                            modifier = Modifier.padding(10.dp),
+                            color = Color.DarkGray,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
+                        )
+                        Image(
+                            painterResource(id = R.drawable.maintaince),
+                            contentDescription = "maintenance logo",
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(horizontal = 10.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.arrow),
+                                contentDescription = "forward arrow",
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(5.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
+                    Spacer(modifier = Modifier.width(20.dp))
+                    Card(
+                        modifier = Modifier
+                            .weight(1f)
+                            .aspectRatio(1f),
+                        colors = CardDefaults.cardColors(
+                            containerColor = Color.White
+                        ), onClick = { Toast.makeText(context, "coming soon", Toast.LENGTH_LONG
+                        ).show()},
+                        elevation = CardDefaults.cardElevation(
+                            defaultElevation = 10.dp
+                        )
+                    )
+                    {
+                        Text(
+                            text = "Meetings",
+                            modifier = Modifier.padding(10.dp),
+                            color = Color.DarkGray,
+                            fontWeight = FontWeight.Bold,
+                            fontSize = 15.sp
+                        )
+                        Image(
+                            painterResource(id = R.drawable.meetings),
+                            contentDescription = "Meetings logo",
+                            modifier = Modifier
+                                .size(60.dp)
+                                .padding(horizontal = 10.dp)
+                        )
+                        Row(
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.End,
+                            verticalAlignment = Alignment.Bottom
+                        ) {
+                            Image(
+                                painterResource(id = R.drawable.arrow),
+                                contentDescription = "forward arrow" ,
+                                modifier = Modifier
+                                    .size(50.dp)
+                                    .padding(5.dp),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
+                }
             }
-            Spacer(modifier = Modifier.height(20.dp))
-            Button(onClick = onSignOut,) {
-                Text(text = "Sign Out",
-                    color = Color.White)
-            }
+
+
+                if (viewModel.isDialogueShown){
+                    if (userData != null) {
+                        ProfileDialog(onDismiss = {
+                            viewModel.onDismissDialogue()
+                        },
+                            onConfirm = {
+                                viewModel.onOKayClick()
+                            },
+                            userData = UserData(
+                                username = userData?.username,
+                                userId = userData.userId,
+                                profilePictureUrl = userData.profilePictureUrl
+                            ),
+                            onSignOut
+                        )
+                    }
+                }
         }
     }
 }

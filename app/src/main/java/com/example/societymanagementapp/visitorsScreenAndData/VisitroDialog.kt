@@ -173,28 +173,7 @@ fun VisitorsDialog(
                     Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
                 ){
-                    //the value of date  picked is stored in pickedDate
-                    var pickedDate by remember {
-                        mutableStateOf(LocalDate.now())
-                    }
-                    //the value of time picked is stored in pickedtime
-                    var pickedTime by remember {
-                        mutableStateOf(LocalTime.NOON)
-                    }
-                    val formattedDate by remember {
-                        derivedStateOf{
-                            DateTimeFormatter
-                                .ofPattern("mmm dd yyyy")
-                                .format(pickedDate)
-                        }
-                    }
-                    val formattedTime by remember {
-                        derivedStateOf{
-                            DateTimeFormatter
-                                .ofPattern("hh:mm")
-                                .format(pickedTime)
-                        }
-                    }
+
                     val dateDialogState = rememberMaterialDialogState()
                     val timeDialogState = rememberMaterialDialogState()
                     //this materialdialog is for the date picker
@@ -216,7 +195,6 @@ fun VisitorsDialog(
                                 headerBackgroundColor = Color.Blue,
                             )
                         ){
-                            pickedDate = it
                             date = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(it)
                         }
                     }
@@ -277,7 +255,6 @@ fun VisitorsDialog(
                                 activeBackgroundColor = Color.Blue,
                             )
                         ){
-                            pickedTime = it
                             time = DateTimeFormatter.ofPattern("hh:mm a").format(it)
                         }
                     }
