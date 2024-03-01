@@ -3,6 +3,9 @@
 
 package com.example.societymanagementapp.visitorsScreenAndData
 
+import android.content.ContentValues.TAG
+import android.content.Context
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -38,6 +41,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -48,6 +52,8 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.societymanagementapp.R
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
@@ -58,20 +64,24 @@ import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
 @ExperimentalMaterial3Api
-@Preview
 @Composable
 fun VisitorDialogPreview(){
-VisitorsDialog(onDismiss = {}, onConfirm = {})
+VisitorsDialog(
+    onDismiss = {},
+    onConfirm = {},
+    )
 }
 @ExperimentalMaterial3Api
 @Composable
 fun VisitorsDialog(
+
     onDismiss: ()-> Unit,
     onConfirm:()-> Unit ,
 ) {
+    val context = LocalContext.current
     var date by remember { mutableStateOf("")}
     var time by remember { mutableStateOf("") }
-
+    val db = Firebase.firestore
     Dialog(onDismissRequest = {
         onDismiss()
     },
@@ -329,7 +339,30 @@ fun VisitorsDialog(
                     ) {
                         Text(text = "cancel")
                     }
-                    Button(onClick = {  },
+                    Button(onClick = {val visitorData = hashMapOf(
+                        "visitorName" to visitorname,
+                        "phoneNumber" to phone_no,
+                        "date" to date,
+                        "time" to time
+                    )
+                        db.collection("visitors")
+                            .add(visitorData)
+                            .addOnSuccessListener { documentReference ->
+
+                                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+
+                                Toast.makeText(context, "Visitor added successfully!", Toast.LENGTH_SHORT).show()
+
+                                onDismiss()
+                            }
+                            .addOnFailureListener { e ->
+
+                                Log.w(TAG, "Error adding document", e)
+
+                                Toast.makeText(context, "Error adding visitor: ${e.message}", Toast.LENGTH_SHORT).show()
+
+                            }
+                                     },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Blue,
                             contentColor = Color.White

@@ -30,6 +30,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -52,6 +53,7 @@ import com.example.societymanagementapp.ui.theme.Pink
 import com.example.societymanagementapp.ui.theme.darkGreen
 import com.example.societymanagementapp.ui.theme.darkMagenta
 
+
 @ExperimentalMaterial3Api
 @Preview
 @Composable
@@ -63,7 +65,9 @@ fun VisitorScreenPreview() {
 @Composable
 fun VisitorScreen(
     viewModel: VisitorViewModel
-): Unit {
+) {
+    val visitors by VisitorData.datalist.collectAsState()
+
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.White)){
@@ -78,12 +82,11 @@ fun VisitorScreen(
             }
             Spacer(modifier = Modifier.height(0.dp))
             LazyColumn(modifier = Modifier.fillMaxWidth()){
-                items(VisitorData.datalist){
+                items(visitors){
                     ExpandableCard(data = it)
                 }
             }
         }
-        //add visitor
         Card(
             modifier = Modifier
                 .clip(shape = CircleShape)
@@ -92,13 +95,12 @@ fun VisitorScreen(
             colors = CardDefaults.cardColors(
                 containerColor = Color.Transparent),
             onClick = {
-                viewModel.onOKayClick()
+                viewModel.onOKayClick() // Call the onOKayClick function from the view model
             }
         ) {
             Image(painterResource(id = R.drawable.add_circle),
                 contentDescription = "add visitors",
                 modifier = Modifier.size(70.dp)
-
             )
             if (viewModel.isDialogueShown){
                 VisitorsDialog(onDismiss = {
@@ -110,15 +112,15 @@ fun VisitorScreen(
                 )
             }
         }
-
     }
 }
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExpandableCard(
-    data: VisitorData.visitorData //the data from the VisitorData file
+    data: VisitorData.visitorData //the data from the com.example.societymanagementapp.visitorsScreenAndData.VisitorData file
 ) {
     var expandableState by remember { mutableStateOf(false) }
 
@@ -175,7 +177,7 @@ fun ExpandableCard(
                         .height(75.dp)
                         .fillMaxWidth()
                         .fillMaxHeight()){
-                        Text(text = data.Phoneno,
+                        Text(text = data.phoneNumber,
                             modifier = Modifier
                                 .align(alignment = Alignment.TopStart)
                                 .padding(10.dp),color = Pink, fontSize = 15.sp, fontWeight = FontWeight.Bold)
