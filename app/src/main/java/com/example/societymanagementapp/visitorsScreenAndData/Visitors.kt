@@ -1,5 +1,8 @@
 package com.example.societymanagementapp.visitorsScreenAndData
 
-data class Visitors(var visitorname:String?=null,var Date:String?=null,var phoneno: String?=null,var time:String?=null) {
-
-}
+data class Visitors(
+    val visitorName:String?="",
+    val date:String?="",
+    val phoneNumber: String?="",
+    val time:String?=""
+)

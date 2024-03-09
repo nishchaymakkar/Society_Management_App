@@ -25,10 +25,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.ClickableText
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,13 +40,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.societymanagementapp.R
 import com.example.societymanagementapp.ui.theme.Orange
 import com.example.societymanagementapp.ui.theme.Pink
@@ -60,126 +59,75 @@ import com.example.societymanagementapp.ui.theme.darkMagenta
 @Preview
 @Composable
 fun VisitorScreenPreview() {
-    VisitorScreen(viewModel = VisitorViewModel())
+    VisitorScreen(visitorViewModel = VisitorViewModel() )
 }
 @ExperimentalMaterial3Api
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun VisitorScreen(
-    viewModel: VisitorViewModel
+    visitorViewModel: VisitorViewModel = viewModel(),
+
+
 ) {
 
-    when(val result = viewModel.response.value){
-
-        is DataState.Success->{
-            Box(modifier = Modifier
-                .fillMaxSize()
-                .background(Color.White)){
-                Row(modifier = Modifier.padding(15.dp)) {
-                    Text(text = "Visitors Log",fontSize=20.sp, fontWeight = FontWeight.Bold)
-                }
-                ShowLazyList(result.data)
-                Card(
-                    modifier = Modifier
-                        .clip(shape = CircleShape)
-                        .align(Alignment.BottomEnd)
-                        .padding(15.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Transparent),
-                    onClick = {
-                        viewModel.onOKayClick() // Call the onOKayClick function from the view model
-                    }
-                ) {
-                    Image(painterResource(id = R.drawable.add_circle),
-                        contentDescription = "add visitors",
-                        modifier = Modifier.size(70.dp)
-                    )
-                    if (viewModel.isDialogueShown){
-                        VisitorsDialog(onDismiss = {
-                            viewModel.onDismissDialogue()
-                        },
-                            onConfirm = {
-                                viewModel.onOKayClick()
-                            }
-                        )
-                    }
-                }
-            }
-
-
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .background(Color.White)){
+        Row(modifier = Modifier.padding(15.dp)) {
+            Text(text = "Visitors Log",fontSize=20.sp, fontWeight = FontWeight.Bold)
         }
-        is DataState.Loading->{
-            Box(modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                Row(modifier = Modifier.padding(15.dp).align(Alignment.TopStart)) {
-                    Text(text = "Visitors Log",fontSize=20.sp, fontWeight = FontWeight.Bold)
-                }
-                CircularProgressIndicator()
-                Card(
-                    modifier = Modifier
-                        .clip(shape = CircleShape)
-                        .align(Alignment.BottomEnd)
-                        .padding(15.dp),
-                    colors = CardDefaults.cardColors(
-                        containerColor = Color.Transparent),
-                    onClick = {
-                        viewModel.onOKayClick() // Call the onOKayClick function from the view model
-                    }
-                ) {
-                    Image(painterResource(id = R.drawable.add_circle),
-                        contentDescription = "add visitors",
-                        modifier = Modifier.size(70.dp)
-                    )
-                    if (viewModel.isDialogueShown){
-                        VisitorsDialog(onDismiss = {
-                            viewModel.onDismissDialogue()
-                        },
-                            onConfirm = {
-                                viewModel.onOKayClick()
-                            }
-                        )
-                    }
-                }
+        ShowLazyList(visitors = mutableListOf(Visitors()) )
+        Card(
+            modifier = Modifier
+                .clip(shape = CircleShape)
+                .align(Alignment.BottomEnd)
+                .padding(15.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = Color.Transparent),
+            onClick = {
+                visitorViewModel.onOKayClick() // Call the onOKayClick function from the view model
             }
-        }
-        is DataState.Failure->{
-            Box(modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ){
-                Text(text = result.message)
+        ) {
+            Image(painterResource(id = R.drawable.add_circle),
+                contentDescription = "add visitors",
+                modifier = Modifier.size(70.dp)
+            )
+            if (visitorViewModel.isDialogueShown){
+                VisitorsDialog(onDismiss = {
+                    visitorViewModel.onDismissDialogue()
+                },
+                    onConfirm = {
+                        visitorViewModel.onOKayClick()
+                    }
+                )
             }
-
-        }else ->{
-        Box(modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
-        ){
-            Text(text = "Error Fetching Data")
-        }
-
         }
     }
 
 
 }
+
+
+
 
 @Composable
-fun ShowLazyList(visitors: MutableList<Visitors> ) {
-    LazyColumn(modifier = Modifier.fillMaxWidth()){
-        items(visitors){visitors->
-            ExpandableCard(visitors)
-
+fun ShowLazyList(visitors : MutableList<Visitors>) {
+    LazyColumn(modifier = Modifier
+        .fillMaxWidth()
+        .padding(top = 50.dp)){
+        items(visitors) {visitors->
+            ExpandableCard(VisitorViewModel())
         }
     }
 }
+
+
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ExpandableCard(
-    visitors: Visitors
-    //the data from the com.example.societymanagementapp.visitorsScreenAndData.VisitorData file
-) {
+fun ExpandableCard(visitorViewModel: VisitorViewModel = viewModel()){
+
     var expandableState by remember { mutableStateOf(false) }
 
     Card(
@@ -200,21 +148,20 @@ fun ExpandableCard(
             expandableState = !expandableState
         }
     ) {
+    val getData = visitorViewModel.state1.value
         Column(
             modifier = Modifier
                 .fillMaxWidth()
         ) {
             Row( verticalAlignment = Alignment.CenterVertically) {
-                Text(text = visitors.visitorname!!,
+                Text(text = getData.visitorName!!,
                     modifier = Modifier
                         .padding(10.dp)
                         .weight(4f),color = Color.Blue
                        , fontSize = 15.sp, fontWeight = FontWeight.Bold)
 
-                ClickableText(text = AnnotatedString(visitors.Date!!),
-                    onClick = {
-                        expandableState = !expandableState
-                    },
+                Text(text = getData.date!!,
+
                     modifier = Modifier
                         .weight(1f)
                         .padding(10.dp),
@@ -228,14 +175,14 @@ fun ExpandableCard(
                     modifier = Modifier
                         .fillMaxWidth(),
                     colors = CardDefaults.cardColors(
-                        containerColor = Color.Black),
+                        containerColor = Color.White),
                     shape = RoundedCornerShape(15.dp)
                 ) {
                     Box(modifier = Modifier
                         .height(75.dp)
                         .fillMaxWidth()
                         .fillMaxHeight()){
-                        Text(text = visitors.phoneno!!,
+                        Text(text = getData.phoneNumber!!,
                             modifier = Modifier
                                 .align(alignment = Alignment.TopStart)
                                 .padding(10.dp),color = Pink, fontSize = 15.sp, fontWeight = FontWeight.Bold)
@@ -247,7 +194,7 @@ fun ExpandableCard(
                             modifier = Modifier
                                 .align(alignment = Alignment.BottomStart)
                                 .padding(10.dp),color = Orange, fontSize = 15.sp,fontWeight = FontWeight.Bold)
-                        Text(text = visitors.time!!,
+                        Text(text = getData.time!!,
                             modifier = Modifier
                                 .align(alignment = Alignment.BottomEnd)
                                 .padding(10.dp),
@@ -258,3 +205,4 @@ fun ExpandableCard(
         }
     }
 }
+

@@ -2,7 +2,6 @@
 
 package com.example.societymanagementapp
 
-import android.app.Activity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -12,11 +11,7 @@ import androidx.activity.result.IntentSenderRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.compose.LifecycleStopOrDisposeEffectResult
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -33,6 +28,7 @@ import com.example.societymanagementapp.googleSignIn.SignInViewModel
 import com.example.societymanagementapp.ui.theme.SocietyManagementAppTheme
 import com.example.societymanagementapp.visitorsScreenAndData.VisitorScreen
 import com.example.societymanagementapp.visitorsScreenAndData.VisitorViewModel
+import com.example.societymanagementapp.visitorsScreenAndData.Visitors
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.LaunchedEffect as LaunchedEffect1
 
@@ -132,7 +128,7 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = "visitor"
                     ) {
-                        VisitorScreen(viewModel = VisitorViewModel())
+                        VisitorScreen(visitorViewModel =  VisitorViewModel())
 
                     }
                     composable(
