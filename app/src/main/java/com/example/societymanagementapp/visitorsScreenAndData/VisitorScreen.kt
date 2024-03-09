@@ -149,6 +149,7 @@ fun ExpandableCard(visitorViewModel: VisitorViewModel = viewModel()){
         }
     ) {
     val getData = visitorViewModel.state1.value
+
         Column(
             modifier = Modifier
                 .fillMaxWidth()
