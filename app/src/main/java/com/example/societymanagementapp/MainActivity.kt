@@ -137,7 +137,7 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = "visitor"
                     ) {
-                        VisitorScreen( visitorViewModel = VisitorViewModel())
+                        VisitorScreen( )
                         var visitorList = mutableStateListOf<Visitors?>()
 
 
@@ -177,15 +177,16 @@ class MainActivity : ComponentActivity() {
                             }
                             // if we don't get any data or any error
                             // we are displaying a toast message
-                            // that we donot get any data
+                            // that we do not get any data
                             .addOnFailureListener {
-                                 Toast.makeText(
-                                     applicationContext,
-                                     "Fail to get the data.",
-                                     Toast.LENGTH_SHORT
-                                 ).show()
+                                Toast.makeText(
+                                    applicationContext,
+                                    "Fail to get the data.",
+                                    Toast.LENGTH_SHORT
+                                ).show()
                             }
-                        ExpandableCard(context = LocalContext.current, visitorList= SnapshotStateList())
+                        ExpandableCard(visitorList)
+
                     }
                     composable(
                         route = "complaints"
@@ -195,6 +196,7 @@ class MainActivity : ComponentActivity() {
                     }
 
                 }
+
 
             }
         }
