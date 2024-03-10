@@ -2,6 +2,7 @@
 
 package com.example.societymanagementapp
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -12,6 +13,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -26,9 +30,12 @@ import com.example.societymanagementapp.googleSignIn.ProfileViewModel
 import com.example.societymanagementapp.googleSignIn.SignInScreen
 import com.example.societymanagementapp.googleSignIn.SignInViewModel
 import com.example.societymanagementapp.ui.theme.SocietyManagementAppTheme
+import com.example.societymanagementapp.visitorsScreenAndData.ExpandableCard
+
 import com.example.societymanagementapp.visitorsScreenAndData.VisitorScreen
 import com.example.societymanagementapp.visitorsScreenAndData.VisitorViewModel
 import com.example.societymanagementapp.visitorsScreenAndData.Visitors
+import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.LaunchedEffect as LaunchedEffect1
 
@@ -44,8 +51,10 @@ class MainActivity : ComponentActivity() {
             )
         )
     }
-    private val viewModel by viewModels<VisitorViewModel>()
 
+
+
+    @SuppressLint("UnrememberedMutableState")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -128,8 +137,55 @@ class MainActivity : ComponentActivity() {
                     composable(
                         route = "visitor"
                     ) {
-                        VisitorScreen(visitorViewModel =  VisitorViewModel())
+                        VisitorScreen( visitorViewModel = VisitorViewModel())
+                        var visitorList = mutableStateListOf<Visitors?>()
 
+
+                        var db = FirebaseFirestore.getInstance()
+                        var visitors = Visitors()
+
+                        db.collection("visitors").get()
+                            .addOnSuccessListener { queryDocumentSnapshots ->
+                                // after getting the data we are calling
+                                // on success method
+                                // and inside this method we are checking
+                                // if the received query snapshot is empty or not.
+                                if (!queryDocumentSnapshots.isEmpty) {
+                                    // if the snapshot is not empty we are
+                                    // hiding our progress bar and adding
+                                    // our data in a list.
+                                    // loadingPB.setVisibility(View.GONE)
+                                    val list = queryDocumentSnapshots.documents
+                                    for (d in list) {
+                                        // after getting this list we are passing that
+                                        // list to our object class.
+                                        val c: Visitors? = d.toObject(Visitors::class.java)
+                                        // and we will pass this object class inside
+                                        // our arraylist which we have created for list view.
+                                        visitorList.add(c)
+
+                                    }
+                                } else {
+                                    // if the snapshot is empty we are displaying
+                                    // a toast message.
+                                    Toast.makeText(
+                                        applicationContext,
+                                        "No data found in Database",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
+                                }
+                            }
+                            // if we don't get any data or any error
+                            // we are displaying a toast message
+                            // that we donot get any data
+                            .addOnFailureListener {
+                                 Toast.makeText(
+                                     applicationContext,
+                                     "Fail to get the data.",
+                                     Toast.LENGTH_SHORT
+                                 ).show()
+                            }
+                        ExpandableCard(context = LocalContext.current, visitorList= SnapshotStateList())
                     }
                     composable(
                         route = "complaints"
@@ -137,7 +193,9 @@ class MainActivity : ComponentActivity() {
                         ComplaintBoxScreen(viewModel = ComplaintScreenViewModel())
 
                     }
+
                 }
+
             }
         }
     }

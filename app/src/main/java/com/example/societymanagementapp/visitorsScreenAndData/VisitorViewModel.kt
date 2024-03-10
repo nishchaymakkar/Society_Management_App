@@ -1,11 +1,19 @@
+@file:OptIn(ExperimentalMaterial3Api::class)
+
 package com.example.societymanagementapp.visitorsScreenAndData
 
 
+import android.annotation.SuppressLint
 import android.util.Log
+import android.widget.Toast
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ValueElement
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -21,8 +29,10 @@ import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
 import kotlinx.coroutines.flow.StateFlow
+
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+
 
 
 // this VisitorViewModel is for the dialog box to add visitor entry
@@ -40,30 +50,12 @@ class VisitorViewModel: ViewModel() {
         isDialogueShown = false
     }
 
-    val state1 = mutableStateOf(Visitors())
-    init {
-        getData()
-    }
-    private fun getData(){
-        viewModelScope.launch {
-            state1.value = getDataFromFireStore()
-        }
-    }
+
 
 }
 
 
-suspend fun getDataFromFireStore():Visitors{
-    val db = FirebaseFirestore.getInstance()
-    var visitors = Visitors()
-    try{
-        db.collection("visitors").get().await().map(){
-            val result =   it.toObject(Visitors::class.java)
-            visitors = result
-        }
-    }catch (e: FirebaseFirestoreException){
-        Log.d("error","getDataFromFireStore: $e")
-    }
-    return visitors
 
-}
+
+
+
