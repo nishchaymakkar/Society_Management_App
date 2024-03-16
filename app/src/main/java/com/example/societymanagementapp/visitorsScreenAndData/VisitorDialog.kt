@@ -43,6 +43,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.societymanagementapp.R
 import com.google.firebase.Firebase
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.vanpra.composematerialdialogs.MaterialDialog
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
@@ -70,6 +71,8 @@ fun VisitorsDialog(
     var date by remember { mutableStateOf("")}
     var time by remember { mutableStateOf("") }
     val db = Firebase.firestore
+    val auth = FirebaseAuth.getInstance()
+    val userId = auth.currentUser?.uid
     Dialog(onDismissRequest = {
         onDismiss()
     },
@@ -333,7 +336,7 @@ fun VisitorsDialog(
                         "date" to date,
                         "time" to time
                     )
-                        db.collection("visitors")
+                        db.collection("Log").document("Visitors").collection("$userId")
                             .add(visitorData)
                             .addOnSuccessListener { documentReference ->
 

@@ -70,7 +70,7 @@ fun ProfileScreen(
                 ) {
 
                     Image(
-                        painterResource(id = R.drawable.logohere), contentDescription = "Society logo",
+                        painterResource(id = R.drawable.logo), contentDescription = "Society logo",
                         Modifier.size(50.dp))
                 }
                 Row(
