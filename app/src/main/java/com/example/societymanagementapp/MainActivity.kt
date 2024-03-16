@@ -35,6 +35,7 @@ import com.example.societymanagementapp.visitorsScreenAndData.ExpandableCard
 import com.example.societymanagementapp.visitorsScreenAndData.VisitorScreen
 import com.example.societymanagementapp.visitorsScreenAndData.VisitorViewModel
 import com.example.societymanagementapp.visitorsScreenAndData.Visitors
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.launch
 import androidx.compose.runtime.LaunchedEffect as LaunchedEffect1
@@ -143,8 +144,9 @@ class MainActivity : ComponentActivity() {
 
                         var db = FirebaseFirestore.getInstance()
                         var visitors = Visitors()
-
-                        db.collection("visitors").get()
+                        val auth = FirebaseAuth.getInstance()
+                        val userId = auth.currentUser?.uid
+                        db.collection("Log").document("Visitors").collection("$userId").get()
                             .addOnSuccessListener { queryDocumentSnapshots ->
                                 // after getting the data we are calling
                                 // on success method
