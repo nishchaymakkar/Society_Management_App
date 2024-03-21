@@ -43,6 +43,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -50,11 +51,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -69,6 +74,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.VerticalAlignmentLine
 import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.res.painterResource
@@ -78,7 +86,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
-
+@Preview
+@Composable
+private fun Preview() {
+    SignInScreen(state = SignInState()) {
+        
+    }
+    
+}
 @Composable
 fun SignInScreen(
     state: SignInState,
@@ -96,124 +111,42 @@ fun SignInScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.White)
+                .paint(
+                    painterResource(id = R.drawable.background3),
+                    contentScale = ContentScale.Fit,
+                    alignment = Alignment.BottomCenter
+                )
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxSize(),
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .background(Color.White),
-                    verticalAlignment = Alignment.Top,
-                    horizontalArrangement = Arrangement.Center
-                ) {
-                    Text(
-                        text = "Sign in",
-                        color = Color.Blue,
-                        fontSize = 35.sp,
-                        fontWeight = FontWeight.Bold,
-                        modifier = Modifier
-                            .align(alignment = Alignment.CenterVertically)
-                    )
-                }
-
-                var username by remember {
-                    mutableStateOf("")
-                }
-                OutlinedTextField(
-                    value = username,
-                    onValueChange = { username = it },
-                    maxLines = 1,
-                    textStyle = LocalTextStyle.current.copy(
-                        textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        color = Color.Black,
-                    ),
-
-
-                    label = {
-                        Text(
-                            text = "Username"
-                        )
-
-                    },
-                    leadingIcon = {
-                        Image(
-                            painterResource(id = R.drawable.person), contentDescription = "person"
-                        )
-                    }
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                var password by remember {
-                    mutableStateOf("")
-                }
-                OutlinedTextField(
-                    value = password,
-                    onValueChange = { password = it },
-                    maxLines = 1,
-                    textStyle = LocalTextStyle.current.copy(
-                        textAlign = TextAlign.Left,
-                        fontSize = 20.sp,
-                        color = Color.Black,
-                    ),
-                    label = {
-                        Text(
-                            text = "Password"
-                        )
-
-                    },
-                    leadingIcon = {
-                        Image(
-                            painterResource(id = R.drawable.password), contentDescription = "person"
-                        )
-                    }
-
-                )
-                Spacer(modifier = Modifier.height(30.dp))
-                OutlinedButton(
-                    onClick = { /*TODO*/ },
-                    border = BorderStroke(1.dp, Color.Blue),
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.White,
-                        contentColor = Color.Blue,
-                    )
-                ) {
-                    Text(text = "Login")
-                }
-                Spacer(modifier = Modifier.height(5.dp))
-                TextButton(onClick = { /*TODO*/ }) {
-                    Text(
-                        text = "forgot password?",
-                        color = Color.Black,
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-                Spacer(modifier = Modifier.height(70.dp))
                 Text(
-                    text = "or login with",
-                    color = Color.Black,
-                    fontSize = 15.sp,
+                    text = "Welcome",
+                    textAlign = TextAlign.Center,
                     fontWeight = FontWeight.Bold,
+                    fontSize = 40.sp,
+                    modifier = Modifier
+                        .padding(top = 75.dp)
+                        .align(alignment = Alignment.TopCenter)
                 )
-                Spacer(modifier = Modifier.height(5.dp))
                 Button(
                     onClick = onSignInClick,
-                    modifier = Modifier.size(100.dp),
-                    shape = CircleShape,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = Color.Transparent,
-                        contentColor = Color.Transparent
-                    )
+                        containerColor = Color.White,
+                    ),shape = RoundedCornerShape(20.dp),
+                    modifier = Modifier
+                        .align(alignment = Alignment.BottomCenter)
+                        .padding(bottom = 50.dp, start = 10.dp,end= 10.dp)
+                        .fillMaxWidth()
+
+
+
                 ) {
-                    Image(
-                        painterResource(id = R.drawable.googleicon),
-                        contentDescription = "sign in logo "
-                    )
+                        Image(
+                            painterResource(id = R.drawable.googleicon),
+                            contentDescription = "sign in logo ",
+                            Modifier.size(25.dp)
+
+                        )
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Text(text = "Continue with Google", fontWeight = FontWeight.Bold, fontSize = 20.sp, color = Color.Black)
                 }
-            }
         }
     }

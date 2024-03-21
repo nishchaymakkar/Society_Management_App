@@ -226,6 +226,7 @@ fun VisitorsDialog(
                             color = Color.Black,
                         ),
                         trailingIcon ={
+                            
                             IconButton(onClick = {
                                 dateDialogState.show()
                             }) {
