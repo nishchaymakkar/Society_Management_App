@@ -37,6 +37,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
@@ -53,14 +55,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 
-@ExperimentalMaterial3Api
-@Composable
-fun VisitorDialogPreview(){
-    VisitorsDialog(
-        onDismiss = {},
-        onConfirm = {},
-    )
-}
+
 @ExperimentalMaterial3Api
 @Composable
 fun VisitorsDialog(
@@ -69,7 +64,9 @@ fun VisitorsDialog(
 ) {
     val context = LocalContext.current
     var date by remember { mutableStateOf("")}
-    var time by remember { mutableStateOf("") }
+    var time by remember { mutableStateOf("")}
+    var actualArrivalTime = ""
+    var status:Boolean= false
     val db = Firebase.firestore
     val auth = FirebaseAuth.getInstance()
     val userId = auth.currentUser?.uid
@@ -308,11 +305,7 @@ fun VisitorsDialog(
                             .padding(vertical = 5.dp)
                             .weight(5f)
                     )
-
                 }
-
-
-
 // Buttons for dismiss and confirm
                 Row(
                     Modifier
@@ -335,9 +328,12 @@ fun VisitorsDialog(
                         "visitorName" to visitorname,
                         "phoneNumber" to phone_no,
                         "date" to date,
-                        "time" to time
+                        "time" to time,
+                        "actualArrivalTime" to actualArrivalTime,
+                        "status" to status
                     )
-                        db.collection("Log").document("Visitors").collection("$userId")
+                        db.collection("Log").document("Security").collection("visitors").add(visitorData)
+                        db.collection("Log").document("Users").collection("$userId")
                             .add(visitorData)
                             .addOnSuccessListener { documentReference ->
 
@@ -370,6 +366,5 @@ fun VisitorsDialog(
 
             }
         }
-
     }
 }

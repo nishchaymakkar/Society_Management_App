@@ -86,7 +86,7 @@ fun VisitorScreen() {
         var visitors = Visitors()
         val auth = FirebaseAuth.getInstance()
         val userId = auth.currentUser?.uid
-        db.collection("Log").document("Visitors").collection("$userId").get()
+        db.collection("Log").document("Users").collection("$userId").get()
             .addOnSuccessListener { queryDocumentSnapshots ->
                 // after getting the data we are calling
                 // on success method
@@ -171,26 +171,33 @@ Box(modifier = Modifier
                             .padding(5.dp)
                             .align(Alignment.CenterStart),
                         color = Mustard)}
-                    Text(text= "Status", fontSize = 12.sp,
-                        modifier = Modifier
-                            .padding(5.dp)
-                            .align(Alignment.CenterEnd),color = Color.Blue)
+                    visitorList[index]?.status?.let { status -> // Use the status variable
+                        Text(text = if (status) "Arrived" else "Not Arrived",
+                            fontSize = 12.sp,
+                            modifier = Modifier
+                                .padding(5.dp)
+                                .align(Alignment.CenterEnd),
+                            color = if (status) Color.Green else Color.Red)
+                    }
                     Row(modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(5.dp)) {
                         visitorList[index]?.time?.let {
                         Text(text = it, fontSize = 12.sp,color= darkGreen)}
                         Text(text = " | ",fontSize = 12.sp,color = Color.DarkGray)
-                        Text(text = "Arrival Time", fontSize = 12.sp,color = Color.Red )
+                    visitorList[index]?.actualArrivalTime?.let {
+                        Text(text = it,
+                            fontSize = 12.sp,
+                            color = Color.Red )
+                    }
                     }
                     visitorList[index]?.date?.let{
                     Text(text = it, fontSize = 12.sp,
                         modifier = Modifier
                             .align(Alignment.TopEnd)
-                            .padding(5.dp),color= Orange)}
+                            .padding(5.dp),color= Orange)
+                    }
                 }
-
-
             }
         }
     }
