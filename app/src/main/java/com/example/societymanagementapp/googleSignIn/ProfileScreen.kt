@@ -39,6 +39,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.societymanagementapp.DialogViewModel
 import com.example.societymanagementapp.R
 import kotlin.coroutines.coroutineContext
 
@@ -50,7 +51,7 @@ fun ProfileScreen(
     onSignOut: () -> Unit,
     onVisitorClick: () -> Unit,
     onComplaintClick: () -> Unit,
-    viewModel: ProfileViewModel
+    viewModel: DialogViewModel
 ) {
     Box (
         modifier = Modifier

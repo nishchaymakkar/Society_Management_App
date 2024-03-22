@@ -33,6 +33,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
+import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -58,6 +59,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.societymanagementapp.DialogViewModel
 import com.example.societymanagementapp.R
 import com.example.societymanagementapp.ui.theme.Mustard
 import com.example.societymanagementapp.ui.theme.Orange
@@ -133,10 +135,15 @@ fun VisitorScreen() {
 
 }
 
+@Preview
+@Composable
+private fun Preview() {
+    ExpandableCard(visitorList = SnapshotStateList())
+}
 
 @ExperimentalMaterial3Api
 @Composable
-fun ExpandableCard( visitorList: SnapshotStateList<Visitors?>,visitorViewModel: VisitorViewModel = viewModel()){
+fun ExpandableCard( visitorList: SnapshotStateList<Visitors?>,visitorViewModel: DialogViewModel = viewModel()){
 Box(modifier = Modifier
     .fillMaxWidth()
     .fillMaxHeight()) {
@@ -183,13 +190,14 @@ Box(modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(5.dp)) {
                         visitorList[index]?.time?.let {
-                        Text(text = it, fontSize = 12.sp,color= darkGreen)}
+                        Text(text = it, fontSize = 12.sp,color= darkGreen)
+                        }
                         Text(text = " | ",fontSize = 12.sp,color = Color.DarkGray)
-                    visitorList[index]?.actualArrivalTime?.let {
+                        visitorList[index]?.actualArrivalTime?.let {
                         Text(text = it,
                             fontSize = 12.sp,
                             color = Color.Red )
-                    }
+                        }
                     }
                     visitorList[index]?.date?.let{
                     Text(text = it, fontSize = 12.sp,
@@ -201,13 +209,18 @@ Box(modifier = Modifier
             }
         }
     }
-    Row(Modifier.align(Alignment.BottomEnd).padding(15.dp)) {
+    Row(
+        Modifier
+            .align(Alignment.BottomEnd)
+            .padding(15.dp)) {
         FloatingActionButton(onClick = { visitorViewModel.onOKayClick() },
-            containerColor =  Color.White, shape = CircleShape,modifier = Modifier.size(50.dp) ) {
+            containerColor =  Color.Blue, contentColor = Color.White
+            , shape = CircleShape, modifier = Modifier.size(50.dp)) {
             Image(
-                painterResource(id = R.drawable.add_circle),
+                painterResource(id = R.drawable.add),
                 contentDescription = "add visitors",
-                modifier = Modifier.size(60.dp).clip(shape = CircleShape),contentScale = ContentScale.Crop
+                modifier = Modifier
+                    .size(30.dp),contentScale = ContentScale.Fit
             )
             if (visitorViewModel.isDialogueShown) {
                 VisitorsDialog(onDismiss = {

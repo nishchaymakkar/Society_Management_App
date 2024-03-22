@@ -1,11 +1,11 @@
-package com.example.societymanagementapp.googleSignIn
+package com.example.societymanagementapp
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 
-class ProfileViewModel : ViewModel(){
+class DialogViewModel : ViewModel(){
     var isDialogueShown by mutableStateOf(false)
         private set
 

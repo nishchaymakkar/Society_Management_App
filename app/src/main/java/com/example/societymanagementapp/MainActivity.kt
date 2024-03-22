@@ -19,10 +19,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.societymanagementapp.complaintScreen.ComplaintBoxScreen
-import com.example.societymanagementapp.complaintScreen.ComplaintScreenViewModel
 import com.example.societymanagementapp.googleSignIn.GoogleAuthUiClient
 import com.example.societymanagementapp.googleSignIn.ProfileScreen
-import com.example.societymanagementapp.googleSignIn.ProfileViewModel
 import com.example.societymanagementapp.googleSignIn.SignInScreen
 import com.example.societymanagementapp.googleSignIn.SignInViewModel
 import com.example.societymanagementapp.ui.theme.SocietyManagementAppTheme
@@ -117,7 +115,7 @@ class MainActivity : ComponentActivity() {
                             }, onComplaintClick = {
                                 navController.navigate(Screen.ComplaintBoxScreen.route)
                             },
-                            viewModel = ProfileViewModel()
+                            viewModel = DialogViewModel()
                         )
                     }
 
@@ -130,7 +128,7 @@ class MainActivity : ComponentActivity() {
                     composable(
                         Screen.ComplaintBoxScreen.route
                     ) {
-                        ComplaintBoxScreen(viewModel = ComplaintScreenViewModel())
+                        ComplaintBoxScreen(viewModel = DialogViewModel())
 
                     }
 

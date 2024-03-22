@@ -27,12 +27,13 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.societymanagementapp.DialogViewModel
 import com.example.societymanagementapp.R
 
 @ExperimentalMaterial3Api
 @Composable
 fun ComplaintBoxScreen(
-    viewModel: ComplaintScreenViewModel
+    viewModel: DialogViewModel
 ) {
     Box(modifier = Modifier
         .fillMaxSize()
