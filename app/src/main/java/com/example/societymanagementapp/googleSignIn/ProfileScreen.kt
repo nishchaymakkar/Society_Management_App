@@ -36,6 +36,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
@@ -202,7 +203,9 @@ fun ProfileScreen(
                         }
                     }
                 }
-                Spacer(modifier = Modifier.height(20.dp).fillMaxWidth())
+                Spacer(modifier = Modifier
+                    .height(20.dp)
+                    .fillMaxWidth())
                 Row(modifier = Modifier
                     .padding(horizontal = 20.dp)
                     .fillMaxWidth(), horizontalArrangement = Arrangement.Center) {

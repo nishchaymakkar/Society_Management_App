@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -49,9 +50,16 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.compose.ui.window.DialogWindowProvider
 import coil.compose.AsyncImage
+import com.example.societymanagementapp.DialogViewModel
 import com.example.societymanagementapp.R
+import com.example.societymanagementapp.ui.theme.apptheme
 
-
+@ExperimentalMaterial3Api
+@Preview
+@Composable
+private fun preview() {
+    ProfileDialog(userData = UserData("","",""))
+}
 @ExperimentalMaterial3Api
 @Composable
 fun ProfileDialog(
@@ -70,11 +78,12 @@ fun ProfileDialog(
 
     ) {
         val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
-        dialogWindowProvider.window.setGravity(Gravity.TOP)
+        dialogWindowProvider.window.setGravity(Gravity.BOTTOM)
         Card(
             shape = RoundedCornerShape(15.dp),
             modifier = Modifier
-                .fillMaxWidth(.85f)
+                .fillMaxWidth()
+                .height(300.dp)
                 .border(1.dp, color = Color.Transparent, shape = RoundedCornerShape(15.dp)),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White
@@ -83,15 +92,9 @@ fun ProfileDialog(
                 defaultElevation = 10.dp
             )
         ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp)
-
-            ) {
                 Row(horizontalArrangement = Arrangement.Center,modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 10.dp)) {
+                    .padding(vertical = 30.dp)) {
 
                     if(userData?.profilePictureUrl != null){
                         AsyncImage(model = userData.profilePictureUrl, contentDescription ="profilePicture",
@@ -116,16 +119,19 @@ fun ProfileDialog(
                     horizontalArrangement = Arrangement.Center) {
                     Text(text = "Apartment Address",fontSize = 15.sp, color = Color.DarkGray)
                 }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row(horizontalArrangement = Arrangement.Center,modifier = Modifier
+                Spacer(modifier = Modifier.height(50.dp))
+                Row(horizontalArrangement = Arrangement.Center , verticalAlignment = Alignment.Bottom,modifier = Modifier
                     .fillMaxWidth()
                     .padding(vertical = 5.dp)) {
-                    Button(onClick = onSignOut,) {
+                    Button(onClick = onSignOut,
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = apptheme
+                        )) {
                         Text(
                             text = "Sign Out",
                             color = Color.White
                         )
-                    }
+
                 }
             }
         }

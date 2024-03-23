@@ -64,6 +64,7 @@ import com.example.societymanagementapp.R
 import com.example.societymanagementapp.ui.theme.Mustard
 import com.example.societymanagementapp.ui.theme.Orange
 import com.example.societymanagementapp.ui.theme.Pink
+import com.example.societymanagementapp.ui.theme.apptheme
 import com.example.societymanagementapp.ui.theme.darkGreen
 import com.example.societymanagementapp.ui.theme.darkMagenta
 import com.google.firebase.auth.FirebaseAuth
@@ -214,7 +215,7 @@ Box(modifier = Modifier
             .align(Alignment.BottomEnd)
             .padding(15.dp)) {
         FloatingActionButton(onClick = { visitorViewModel.onOKayClick() },
-            containerColor =  Color.Blue, contentColor = Color.White
+            containerColor =  apptheme, contentColor = Color.White
             , shape = CircleShape, modifier = Modifier.size(50.dp)) {
             Image(
                 painterResource(id = R.drawable.add),
