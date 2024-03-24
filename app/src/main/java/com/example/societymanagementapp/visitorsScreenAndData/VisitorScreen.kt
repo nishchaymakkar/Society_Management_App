@@ -12,6 +12,7 @@ import androidx.compose.animation.core.tween
 import androidx.compose.animation.expandVertically
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -49,6 +50,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
@@ -135,11 +137,7 @@ fun VisitorScreen() {
 
 }
 
-@Preview
-@Composable
-private fun Preview() {
-    DetailsCard(visitorList = SnapshotStateList())
-}
+
 
 @ExperimentalMaterial3Api
 @Composable
@@ -150,45 +148,54 @@ Box(modifier = Modifier
     LazyColumn(
         Modifier
             .padding(top = 60.dp)
+            .fillMaxHeight()
             .align(Alignment.TopCenter)) {
         itemsIndexed(visitorList) { index, item ->
             Card(
                 elevation = CardDefaults.cardElevation(
-                    defaultElevation = 10.dp,
+                    defaultElevation = 2.dp
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(75.dp)
-                    .padding(horizontal = 10.dp, vertical = 5.dp),
+                    .padding(horizontal = 10.dp, vertical = 3.dp)
+                    .border(width = 0.5.dp, shape = RoundedCornerShape(5.dp), color = Color.LightGray),
                 colors = CardDefaults.cardColors(
                     containerColor = Color.White
                 ),
-                shape = RoundedCornerShape(15.dp),
+                shape = RoundedCornerShape(5.dp),
             ) {
-                Box(modifier = Modifier.fillMaxSize() ){
+                Box(modifier = Modifier
+                    .fillMaxSize()
+                    .height(100.dp) ){
+                    Row(modifier = Modifier
+                        .align(Alignment.TopStart)
+                        .padding(5.dp)){
                     visitorList[index]?.visitorName?.let{
                     Text(text = it, fontSize = 15.sp,
                         modifier = Modifier
-                            .padding(5.dp)
-                            .align(Alignment.TopStart),
-                        fontWeight = FontWeight.Bold , color = Color.Black)}
+                            .padding(5.dp),
+                        fontWeight = FontWeight.Bold , color = Color.Black)}}
+                    Row(modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .padding(5.dp)){
                     visitorList[index]?.phoneNumber?.let {
                     Text(text = it, fontSize = 12.sp,
                         modifier = Modifier
-                            .padding(5.dp)
-                            .align(Alignment.CenterStart),
-                        color = Mustard)}
+                            .padding(5.dp),
+                        color = Mustard)}}
+                    Row(modifier = Modifier
+                        .align(Alignment.CenterEnd)
+                        .padding(5.dp)) {
                     visitorList[index]?.status?.let { status -> // Use the status variable
                         Text(text = if (status) "Arrived" else "Not Arrived",
                             fontSize = 12.sp,
                             modifier = Modifier
-                                .padding(5.dp)
-                                .align(Alignment.CenterEnd),
+                                .padding(5.dp),
                             color = if (status) Color.Green else Color.Red)
-                    }
+                    }}
                     Row(modifier = Modifier
                         .align(Alignment.BottomStart)
-                        .padding(5.dp)) {
+                        .padding(vertical = 5.dp, horizontal = 10.dp)) {
                         visitorList[index]?.time?.let {
                         Text(text = it, fontSize = 12.sp,color= darkGreen)
                         }
@@ -199,12 +206,14 @@ Box(modifier = Modifier
                             color = Color.Red )
                         }
                     }
+                    Row(modifier = Modifier
+                        .align(Alignment.TopEnd)
+                        .padding(5.dp)) {
                     visitorList[index]?.date?.let{
                     Text(text = it, fontSize = 12.sp,
                         modifier = Modifier
-                            .align(Alignment.TopEnd)
                             .padding(5.dp),color= Orange)
-                    }
+                    }}
                 }
             }
         }
@@ -239,5 +248,4 @@ Box(modifier = Modifier
 }
 
 
-    
 
