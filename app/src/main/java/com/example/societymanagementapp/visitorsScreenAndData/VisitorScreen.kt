@@ -130,8 +130,7 @@ fun VisitorScreen() {
                     Toast.LENGTH_SHORT
                 ).show()
             }
-
-        ExpandableCard(visitorList)
+        DetailsCard(visitorList)
     }
 
 }
@@ -139,12 +138,12 @@ fun VisitorScreen() {
 @Preview
 @Composable
 private fun Preview() {
-    ExpandableCard(visitorList = SnapshotStateList())
+    DetailsCard(visitorList = SnapshotStateList())
 }
 
 @ExperimentalMaterial3Api
 @Composable
-fun ExpandableCard( visitorList: SnapshotStateList<Visitors?>,visitorViewModel: DialogViewModel = viewModel()){
+fun DetailsCard( visitorList: SnapshotStateList<Visitors?>,visitorViewModel: DialogViewModel = viewModel()){
 Box(modifier = Modifier
     .fillMaxWidth()
     .fillMaxHeight()) {

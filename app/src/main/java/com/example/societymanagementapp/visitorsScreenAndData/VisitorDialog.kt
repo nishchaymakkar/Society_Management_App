@@ -1,5 +1,7 @@
 import android.content.ContentValues.TAG
 import android.util.Log
+import android.view.Gravity
+import android.view.Gravity.*
 import android.widget.Toast
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
@@ -23,6 +25,7 @@ import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.material3.TimePickerColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
@@ -33,6 +36,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
@@ -43,12 +47,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import androidx.compose.ui.window.DialogWindowProvider
 import com.example.societymanagementapp.R
+import com.example.societymanagementapp.ui.theme.apptheme
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.firestore
 import com.vanpra.composematerialdialogs.MaterialDialog
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults
+import com.vanpra.composematerialdialogs.datetime.date.DatePickerDefaults.colors
 import com.vanpra.composematerialdialogs.datetime.date.datepicker
+import com.vanpra.composematerialdialogs.datetime.time.TimePickerDefaults
 import com.vanpra.composematerialdialogs.datetime.time.timepicker
 import com.vanpra.composematerialdialogs.rememberMaterialDialogState
 import java.time.LocalDate
@@ -57,10 +66,11 @@ import java.time.format.DateTimeFormatter
 
 
 @ExperimentalMaterial3Api
+@Preview
 @Composable
 fun VisitorsDialog(
-    onDismiss: ()-> Unit,
-    onConfirm:()-> Unit ,
+    onDismiss: ()-> Unit={},
+    onConfirm:()-> Unit={} ,
 ) {
     val context = LocalContext.current
     var date by remember { mutableStateOf("")}
@@ -76,11 +86,12 @@ fun VisitorsDialog(
         properties = DialogProperties(
             usePlatformDefaultWidth = false
         )
-
     ) {
+        val dialogWindowProvider = LocalView.current.parent as DialogWindowProvider
+        dialogWindowProvider.window.setGravity(BOTTOM)
         Card(shape = RoundedCornerShape(15.dp),
             modifier = Modifier
-                .fillMaxWidth(.95f)
+                .fillMaxWidth()
                 .border(1.dp, color = Color.Transparent, shape = RoundedCornerShape(15.dp)),
             colors = CardDefaults.cardColors(
                 containerColor = Color.White),
@@ -100,7 +111,7 @@ fun VisitorsDialog(
                     verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.Center
                 ) {
                     Text(text = "Visitor Entry", fontSize = 25.sp, fontWeight = FontWeight.Bold,
-                        modifier = Modifier.padding(10.dp),color = Color.Blue)
+                        modifier = Modifier.padding(10.dp),color = apptheme)
                 }
                 // textfield for Visitor Name
                 var visitorname by remember {
@@ -116,10 +127,10 @@ fun VisitorsDialog(
                     colors = TextFieldDefaults.textFieldColors(
                         focusedTextColor = Color.Black ,
                         containerColor = Color.White,
-                        cursorColor = Color.Blue,
-                        focusedIndicatorColor = Color.Blue,
-                        unfocusedIndicatorColor = Color.Blue,
-                        focusedLabelColor = Color.Blue
+                        cursorColor = apptheme,
+                        focusedIndicatorColor = apptheme,
+                        unfocusedIndicatorColor = Color.Black,
+                        focusedLabelColor = apptheme
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
                     label = {
@@ -149,10 +160,10 @@ fun VisitorsDialog(
                     colors = TextFieldDefaults.textFieldColors(
                         focusedTextColor = Color.Black ,
                         containerColor = Color.White,
-                        cursorColor = Color.Blue,
-                        focusedIndicatorColor = Color.Blue,
-                        unfocusedIndicatorColor = Color.Blue,
-                        focusedLabelColor = Color.Blue
+                        cursorColor = apptheme,
+                        focusedIndicatorColor = apptheme,
+                        unfocusedIndicatorColor = Color.Black,
+                        focusedLabelColor = apptheme
                     ),
                     keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Phone),
                     label = {
@@ -206,7 +217,11 @@ fun VisitorsDialog(
                     ) {
                         datepicker(
                             initialDate = LocalDate.now(),
-                            title = "Pick a Date"
+                            title = "Pick a Date",
+                            colors = DatePickerDefaults.colors(
+                                headerBackgroundColor = apptheme,
+                                dateActiveBackgroundColor = apptheme
+                            )
                         ){
                             pickedDate = it
                             date = DateTimeFormatter.ofPattern("dd-MM-yyyy").format(it)
@@ -233,10 +248,10 @@ fun VisitorsDialog(
                         colors = TextFieldDefaults.textFieldColors(
                             focusedTextColor = Color.Black ,
                             containerColor = Color.White,
-                            cursorColor = Color.Blue,
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            focusedLabelColor = Color.Blue
+                            cursorColor = apptheme,
+                            focusedIndicatorColor = apptheme,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = apptheme
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
@@ -264,7 +279,17 @@ fun VisitorsDialog(
                     ) {
                         timepicker(
                             initialTime = LocalTime.now(),
-                            title = "Pick a Time"
+                            title = "Pick a Time",
+                            colors = TimePickerDefaults.colors(
+                                selectorColor = apptheme,
+                                activeBackgroundColor = apptheme,
+                                borderColor = apptheme,
+                                inactiveBackgroundColor = Color.White,
+                                activeTextColor = Color.White,
+                                inactiveTextColor = apptheme,
+                                inactivePeriodBackground = Color.White,
+
+                            )
                         ){
                             pickedTime = it
                             time = DateTimeFormatter.ofPattern("hh:mm a").format(it)
@@ -290,10 +315,10 @@ fun VisitorsDialog(
                         colors = TextFieldDefaults.textFieldColors(
                             focusedTextColor = Color.Black ,
                             containerColor = Color.White,
-                            cursorColor = Color.Blue,
-                            focusedIndicatorColor = Color.Blue,
-                            unfocusedIndicatorColor = Color.Blue,
-                            focusedLabelColor = Color.Blue
+                            cursorColor = apptheme,
+                            focusedIndicatorColor = apptheme,
+                            unfocusedIndicatorColor = Color.Black,
+                            focusedLabelColor = apptheme
                         ),
                         keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
                         label = {
@@ -315,12 +340,12 @@ fun VisitorsDialog(
                     Button(onClick = { onDismiss() },
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Transparent,
-                            contentColor = Color.Blue
+                            contentColor = apptheme
                         ),
                         modifier = Modifier
                             .weight(5f)
                             .padding(horizontal = 5.dp, vertical = 10.dp),
-                        border = BorderStroke(1.dp, Color.Blue)
+                        border = BorderStroke(1.dp, apptheme)
                     ) {
                         Text(text = "cancel")
                     }
@@ -352,13 +377,13 @@ fun VisitorsDialog(
                             }
                     },
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.Blue,
+                            containerColor = apptheme,
                             contentColor = Color.White
                         ),
                         modifier = Modifier
                             .weight(5f)
                             .padding(horizontal = 5.dp, vertical = 10.dp),
-                        border = BorderStroke(1.dp,Color.Blue)
+                        border = BorderStroke(1.dp,apptheme)
                     ) {
                         Text(text = "ok")
                     }
