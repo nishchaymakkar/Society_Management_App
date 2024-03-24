@@ -350,6 +350,7 @@ fun VisitorsDialog(
                         Text(text = "cancel")
                     }
                     Button(onClick = {val visitorData = hashMapOf(
+                        "residentId" to userId,
                         "visitorName" to visitorname,
                         "phoneNumber" to phone_no,
                         "date" to date,
@@ -357,9 +358,9 @@ fun VisitorsDialog(
                         "actualArrivalTime" to actualArrivalTime,
                         "status" to status
                     )
-                        db.collection("Log").document("Security").collection("visitors").add(visitorData)
-                        db.collection("Log").document("Users").collection("$userId")
-                            .add(visitorData)
+
+                        val guestsRef = db.collection("Guests")
+                        guestsRef.add(visitorData)
                             .addOnSuccessListener { documentReference ->
 
                                 Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")

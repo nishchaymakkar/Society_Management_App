@@ -90,8 +90,10 @@ fun VisitorScreen() {
         var db = FirebaseFirestore.getInstance()
         var visitors = Visitors()
         val auth = FirebaseAuth.getInstance()
-        val userId = auth.currentUser?.uid
-        db.collection("Log").document("Users").collection("$userId").get()
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+        val guestsRef = db.collection("Guests")
+        guestsRef.whereEqualTo("residentId",currentUserId)
+            .get()
             .addOnSuccessListener { queryDocumentSnapshots ->
                 // after getting the data we are calling
                 // on success method
