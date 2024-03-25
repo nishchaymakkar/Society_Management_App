@@ -194,7 +194,8 @@ Box(modifier = Modifier
                             modifier = Modifier
                                 .padding(5.dp),
                             color = if (status) Color.Green else Color.Red)
-                    }}
+                    }
+                    }
                     Row(modifier = Modifier
                         .align(Alignment.BottomStart)
                         .padding(vertical = 5.dp, horizontal = 10.dp)) {

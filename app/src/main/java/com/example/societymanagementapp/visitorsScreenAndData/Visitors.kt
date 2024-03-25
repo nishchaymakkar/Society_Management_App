@@ -1,11 +1,11 @@
 package com.example.societymanagementapp.visitorsScreenAndData
 
 data class Visitors(
-    val residentId:String?="",
-    val visitorName:String?="",
-    val date:String?="",
-    val phoneNumber: String?="",
-    val time:String?="",
-    val actualArrivalTime:String?="",
-    val status:Boolean?=false
+    var residentId:String?="",
+    var visitorName:String?="",
+    var date:String?="",
+    var phoneNumber: String?="",
+    var time:String?="",
+    var actualArrivalTime:String?="",
+    var status:Boolean?= null
 )
