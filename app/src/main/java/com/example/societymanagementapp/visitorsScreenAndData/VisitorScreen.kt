@@ -144,111 +144,110 @@ fun VisitorScreen() {
 @ExperimentalMaterial3Api
 @Composable
 fun DetailsCard( visitorList: SnapshotStateList<Visitors?>,visitorViewModel: DialogViewModel = viewModel()){
-Box(modifier = Modifier
-    .fillMaxWidth()
-    .fillMaxHeight()) {
-    LazyColumn(
-        Modifier
-            .padding(top = 60.dp)
-            .fillMaxHeight()
-            .align(Alignment.TopCenter)) {
-        itemsIndexed(visitorList) { index, item ->
-            Card(
-                elevation = CardDefaults.cardElevation(
-                    defaultElevation = 2.dp
-                ),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 10.dp, vertical = 3.dp)
-                    .border(width = 0.5.dp, shape = RoundedCornerShape(5.dp), color = Color.LightGray),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.White
-                ),
-                shape = RoundedCornerShape(5.dp),
-            ) {
-                Box(modifier = Modifier
-                    .fillMaxSize()
-                    .height(100.dp) ){
-                    Row(modifier = Modifier
-                        .align(Alignment.TopStart)
-                        .padding(5.dp)){
-                    visitorList[index]?.visitorName?.let{
-                    Text(text = it, fontSize = 15.sp,
-                        modifier = Modifier
-                            .padding(5.dp),
-                        fontWeight = FontWeight.Bold , color = Color.Black)}}
-                    Row(modifier = Modifier
-                        .align(Alignment.CenterStart)
-                        .padding(5.dp)){
-                    visitorList[index]?.phoneNumber?.let {
-                    Text(text = it, fontSize = 12.sp,
-                        modifier = Modifier
-                            .padding(5.dp),
-                        color = Mustard)}}
-                    Row(modifier = Modifier
-                        .align(Alignment.CenterEnd)
-                        .padding(5.dp)) {
-                    visitorList[index]?.status?.let { status -> // Use the status variable
-                        Text(text = if (status) "Arrived" else "Not Arrived",
-                            fontSize = 12.sp,
-                            modifier = Modifier
-                                .padding(5.dp),
-                            color = if (status) Color.Green else Color.Red)
-                    }
-                    }
-                    Row(modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(vertical = 5.dp, horizontal = 10.dp)) {
-                        visitorList[index]?.time?.let {
-                        Text(text = it, fontSize = 12.sp,color= darkGreen)
+    Box(modifier = Modifier
+        .fillMaxWidth()
+        .fillMaxHeight()) {
+        LazyColumn(
+            Modifier
+                .padding(top = 60.dp)
+                .fillMaxHeight()
+                .align(Alignment.TopCenter)) {
+            itemsIndexed(visitorList) { index, item ->
+                Card(
+                    elevation = CardDefaults.cardElevation(
+                        defaultElevation = 2.dp
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 10.dp, vertical = 3.dp)
+                        .border(width = 0.5.dp, shape = RoundedCornerShape(5.dp), color = Color.LightGray),
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    shape = RoundedCornerShape(5.dp),
+                ) {
+                    Box(modifier = Modifier
+                        .fillMaxSize()
+                        .height(100.dp) ){
+                        Row(modifier = Modifier
+                            .align(Alignment.TopStart)
+                            .padding(5.dp)){
+                            visitorList[index]?.visitorName?.let{
+                                Text(text = it, fontSize = 15.sp,
+                                    modifier = Modifier
+                                        .padding(5.dp),
+                                    fontWeight = FontWeight.Bold , color = Color.Black)}}
+                        Row(modifier = Modifier
+                            .align(Alignment.CenterStart)
+                            .padding(5.dp)){
+                            visitorList[index]?.phoneNumber?.let {
+                                Text(text = it, fontSize = 12.sp,
+                                    modifier = Modifier
+                                        .padding(5.dp),
+                                    color = Mustard)}}
+                        Row(modifier = Modifier
+                            .align(Alignment.CenterEnd)
+                            .padding(5.dp)) {
+                            visitorList[index]?.status?.let { status -> // Use the status variable
+                                Text(text = if (status) "Arrived" else "Not Arrived",
+                                    fontSize = 12.sp,
+                                    modifier = Modifier
+                                        .padding(5.dp),
+                                    color = if (status) Color.Green else Color.Red)
+                            }
                         }
-                        Text(text = " | ",fontSize = 12.sp,color = Color.DarkGray)
-                        visitorList[index]?.actualArrivalTime?.let {
-                        Text(text = it,
-                            fontSize = 12.sp,
-                            color = Color.Red )
+                        Row(modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .padding(vertical = 5.dp, horizontal = 10.dp)) {
+                            visitorList[index]?.time?.let {
+                                Text(text = it, fontSize = 12.sp,color= darkGreen)
+                            }
+                            Text(text = " | ",fontSize = 12.sp,color = Color.DarkGray)
+                            visitorList[index]?.actualArrivalTime?.let {
+                                Text(text = it,
+                                    fontSize = 12.sp,
+                                    color = Color.Red )
+                            }
                         }
+                        Row(modifier = Modifier
+                            .align(Alignment.TopEnd)
+                            .padding(5.dp)) {
+                            visitorList[index]?.date?.let{
+                                Text(text = it, fontSize = 12.sp,
+                                    modifier = Modifier
+                                        .padding(5.dp),color= Orange)
+                            }}
                     }
-                    Row(modifier = Modifier
-                        .align(Alignment.TopEnd)
-                        .padding(5.dp)) {
-                    visitorList[index]?.date?.let{
-                    Text(text = it, fontSize = 12.sp,
-                        modifier = Modifier
-                            .padding(5.dp),color= Orange)
-                    }}
                 }
             }
         }
-    }
-    Row(
-        Modifier
-            .align(Alignment.BottomEnd)
-            .padding(15.dp)) {
-        FloatingActionButton(onClick = { visitorViewModel.onOKayClick() },
-            containerColor =  apptheme, contentColor = Color.White
-            , shape = CircleShape, modifier = Modifier.size(50.dp)) {
-            Image(
-                painterResource(id = R.drawable.add),
-                contentDescription = "add visitors",
-                modifier = Modifier
-                    .size(30.dp),contentScale = ContentScale.Fit
-            )
-            if (visitorViewModel.isDialogueShown) {
-                VisitorsDialog(onDismiss = {
-                    visitorViewModel.onDismissDialogue()
-                },
-                    onConfirm = {
-                        visitorViewModel.onOKayClick()
-                    }
+        Row(
+            Modifier
+                .align(Alignment.BottomEnd)
+                .padding(15.dp)) {
+            FloatingActionButton(onClick = { visitorViewModel.onOKayClick() },
+                containerColor =  apptheme, contentColor = Color.White
+                , shape = CircleShape, modifier = Modifier.size(50.dp)) {
+                Image(
+                    painterResource(id = R.drawable.add),
+                    contentDescription = "add visitors",
+                    modifier = Modifier
+                        .size(30.dp),contentScale = ContentScale.Fit
                 )
+                if (visitorViewModel.isDialogueShown) {
+                    VisitorsDialog(onDismiss = {
+                        visitorViewModel.onDismissDialogue()
+                    },
+                        onConfirm = {
+                            visitorViewModel.onOKayClick()
+                        }
+                    )
+                }
             }
+
+
         }
-
-
-    }
     }
 }
-
 
 
