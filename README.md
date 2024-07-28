@@ -19,7 +19,7 @@ Installation
 Clone the repository:
 bash
 Copy code
-git clone https://github.com/yourusername/society-management-app.git
+git clone https://github.com/nishchaymakkar/Society_Management_App.git
 Open the project in Android Studio.
 Build and run the app on your preferred device or emulator.
 Usage
