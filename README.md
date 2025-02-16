@@ -28,7 +28,7 @@ Community forums
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/nishchaymakkar/EventGaze.git](https://github.com/nishchaymakkar/Society_Management_App.git
+   git clone https://github.com/nishchaymakkar/Society_Management_App.git
    ```
 2. Open the project in **Android Studio**.
 3. Connect to Firebase
