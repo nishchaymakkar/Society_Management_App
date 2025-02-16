@@ -24,14 +24,14 @@ Event announcements
 Maintenance requests
 Community forums
 
-## Installation
-Clone the repository:
-bash
-Copy code
-git clone https://github.com/nishchaymakkar/Society_Management_App.git
-Open the project in Android Studio.
-Build and run the app on your preferred device or emulator.
-Usage
-Launch the app.
-Use the visitor entry booking feature to manage visitor access.
-Submit complaints through the complaint box for prompt resolution.
+## Installation & Setup
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/nishchaymakkar/EventGaze.git](https://github.com/nishchaymakkar/Society_Management_App.git
+   ```
+2. Open the project in **Android Studio**.
+3. Connect to Firebase
+4. Sync Gradle and build the project.
+5. Run the app on an emulator or a physical device.
+
