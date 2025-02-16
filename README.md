@@ -1,4 +1,4 @@
-## Society Management App
+# Society Management App
 The Society Management App is designed to streamline and manage various activities within a residential society. Currently, the app includes features for booking visitor entries and submitting complaints, with the potential for additional features to be added in the future. This project is built using Kotlin and Jetpack Compose, leveraging Firebase for backend services.
 ## Screenshots
 <img src="https://github.com/user-attachments/assets/8fbe288e-4d2e-4c61-8201-7177d15159b8" alt="Sign In Screen" width="200"/>
