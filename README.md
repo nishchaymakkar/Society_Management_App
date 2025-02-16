@@ -35,4 +35,5 @@ Community forums
 3. Connect to Firebase
 4. Sync Gradle and build the project.
 5. Run the app on an emulator or a physical device.
-
+## License
+- This project is open-source and available under the MIT License. [MIT License](LICENSE)
